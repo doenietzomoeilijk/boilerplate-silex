@@ -42,11 +42,12 @@ $app->register(
     )
 );
 
-$app->get(
-    '/',
-    function () use ($app, $data) {
-        return $app['twig']->render('index.twig', $data);
-    }
-);
+$app->get('/', function () use ($app, $data) {
+    return $app['twig']->render('index.twig', $data);
+})->bind('home');
+
+$app->error(function (\Exception $e, $code) use ($app, $data) {
+    return $code . ' // ' . $e->getMessage();
+});
 
 $app->run();
